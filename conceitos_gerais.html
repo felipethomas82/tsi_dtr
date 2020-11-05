@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="demo">Podemos alterar o código com JS?</p>
+    <button onclick="document.getElementById('demo').innerHTML='Yes we can'">TROCAR</button>
+</body>
+
+<script>
+    //JS difere maiusculo de minusculo, CUIDADO.
+    //comentários de 1 linha
+    /*
+        comentário de mais de 1 linha
+        ...
+    */
+
+    // identificadores podem comecar com letras do alfabeto a,b,c... 
+    // ou pode começar com _ ou $ _variavel ou $variavel
+
+    //uso do ; é opcional
+
+    //teste de tipagem e operadores relacionais
+    var teste = 12;
+	teste == 12;    //true
+	teste === 12;   //true
+	teste == "12";  //true
+	teste === "12"; //false
+
+    // teste de içamento var e let. O que será que acontece??
+    function teste() {
+        // console.log(nome);
+        // console.log(sobrenome); //Reference error, a variável declarada com let não é içada
+        // var nome = "Felipe";
+        // let sobrenome = "Thomas";
+
+        let x = 5 + 5; //10
+        let y = 5 + "5"; //55
+        let z = 5 + 5 + "5"; //105
+        console.log(x);
+        console.log(y);
+        console.log(z);
+    }
+    teste();
+
+    //problemas com arredondamento
+    let a = .3 - .2;  //.1
+    let b = .2 - .1;  //.1
+    a == b; //false
+
+    //Template Strings -> ES6 - 2015 em diante
+    let nome = "Felipe Thomas";
+    alert("Olá " + nome + ". Seja bem vindo."); //sem template string
+    alert(`Olá ${nome}. Seja bem vindo.`); //com template string
+
+    // operador ternário ? :
+    // condição ? valor_se_verdadeiro : valor_se_falso
+    let x = 1;
+    let y = x == 1 ? 0 : 2; // y é 0
+
+    // operador typeof
+    typeof x;
+    typeof "teste";
+    typeof false;
+    typeof null;
+    typeof undefined;
+
+    // operador delete
+    let obj = { a : 3, b : "texto", c : 0.5};
+    delete obj.b;
+
+    /* Object wrapper
+        O JS permite que sejam usados métodos nos tipos primitivos
+        Ex.: qualquerString.toUpperCase();
+        O tipo string é um tipo primitivo, contudo, ele pode ser usado 
+        como um objeto, pois o JS irá converte-lo em objeto, chamar o método
+        e depois irá descartar este objeto. Ao chamar o método acima é como se fosse
+        new String(qualquerString).toUpperCase();
+    */
+</script>
+</html>
