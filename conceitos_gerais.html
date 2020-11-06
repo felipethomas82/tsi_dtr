@@ -31,7 +31,7 @@
 	teste === "12"; //false
 
     // teste de içamento var e let. O que será que acontece??
-    function teste() {
+    function testeVariaveis() {
         // console.log(nome);
         // console.log(sobrenome); //Reference error, a variável declarada com let não é içada
         // var nome = "Felipe";
@@ -44,7 +44,7 @@
         console.log(y);
         console.log(z);
     }
-    teste();
+    testeVariaveis();
 
     //problemas com arredondamento
     let a = .3 - .2;  //.1
@@ -80,5 +80,107 @@
         e depois irá descartar este objeto. Ao chamar o método acima é como se fosse
         new String(qualquerString).toUpperCase();
     */
+
+    //Janelas Modais (Popups Boxes).
+    alert("Insira sua mensagem aqui");
+    var nomeCompleto = prompt("Por favor, digite seu nome","");
+    console.log(nomeCompleto); //será null se pressionar cancelar no prompt
+    var resposta = confirm("Pressione um botão");
+    console.log(resposta);
+
+    /* 
+        Exemplo de condicionais
+        IF ... ELSE 
+    */
+    let time = new Date().getHours();
+    if (time <= 12) {
+        console.log("Bom dia");
+    } else if (time <= 19) {
+        console.log("Boa tarde");
+    } else {
+        console.log("Boa noite");
+    }
+
+    // SWITCH ... CASE
+    //getDay() dia da semana. 0 é domingo
+    let dia = new Date().getDay();
+    let diaStr = "";
+    switch (dia) {
+        case 1:
+            diaStr = "Segunda-feira";
+            break;
+        case 2:
+            diaStr = "Terça-feira";
+        break;
+        case 3:
+            diaStr = "Quarta-feira";
+        break;
+        case 4:
+            diaStr = "Quinta-feira";
+        break;
+        case 5:
+            diaStr = "Sexta-feira";
+        break;
+        default:
+            diaStr = "Final de semana";
+        break;
+    }
+    console.log(diaStr);
+
+    //mesma função que o Switch case acima. Não se preocupem, 
+    //depois trabalharemos mais neste assunto
+    let diaSemana = [
+        "Final de semana",
+        "Segunda",
+        "Terça",
+        "Quarta",
+        "Quinta",
+        "Sexta",
+        "Final de semana"
+    ];
+
+    diaStr = diaSemana[ dia ];
+    console.log(diaStr);
+
+    /*
+        LAÇOS DE REPETIÇÃO
+        FOR - FOR OF - FOR IN - WHILE - DO WHILE
+    */
+
+    let array = [ 1, 2, 3, 4, 5, 6 ];
+    for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        console.log(element);
+    }
+
+    // for...in itera sobre todas as propriedades enumeráveis
+    let obj2 = { 
+        a : 1, 
+        b : 2, 
+        c : 3, 
+        any : 10,
+        chave : "valor"
+    };
+    for (const key in obj2) {
+        if (object.hasOwnProperty(key)) {
+            const element = obj2[key];
+            console.log(element);
+        }
+    }
+
+    // for...of é específico para coleções
+    let array2 = [ 1, 2, 3, 4, 5, 6 ];
+    for (const iterator of object) {
+        console.log(iterator);
+    }
+
+    while (condition) {
+        //faz algo
+    }
+
+    do {
+        //faz algo
+    } while (condition);
+
 </script>
 </html>
