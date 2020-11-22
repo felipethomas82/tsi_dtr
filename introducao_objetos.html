@@ -86,9 +86,102 @@
         // console.log(a.splice(2,0,'a','b')); 
         // console.log(a);
 
-        var meuArray = [1,2,3,'a'];
-        console.log(meuArray.reverse());
-        console.log(meuArray);
+        // var meuArray = [1,2,3,'a'];
+        // console.log(meuArray.reverse());
+        // console.log(meuArray);
+
+
+        console.log("-------------- FUNCTIONS ---------------------");
+
+        var areaQuadrado = function(lado) {
+            return lado * lado;
+        }
+
+        function areaCirculo(raio) {
+            return Math.PI * (raio * raio);
+        }
+
+        function areaRetangulo(base, altura) {
+            return base * altura;
+        }
+
+        console.log(`A area do quadrado é: ${areaQuadrado(3)}`);
+        console.log(`A area do circulo é: ${areaCirculo(3).toFixed(2)}`);
+        console.log(`A area do retangulo é: ${areaRetangulo(3, 5)}`);
+        
+        // function add(){
+        //     var sum=0;
+        //     for (var i=0, j=arguments.length;i<j;i++){
+        //         console.log(arguments[i]);
+        //         sum+=arguments[i];
+        //     }
+        //     return sum;
+        // }
+        // console.log( add(1,2) );
+        // console.log( add(1,2,3,4,5) );
+        // console.log( add() );
+        
+        //teste de persistencia de var
+        // function test(o) {
+        //     var i=0;
+        //     if(o!=0){
+        //         var j = 0;
+        //         for (let k=0; k<10;k++){
+        //             console.log(k);
+        //         }
+        //         console.log(k);
+        //     }
+        //     console.log(k);
+        // }
+        // test(1);
+
+        //teste com o operador in
+        var point = new Date(); 
+        console.log("getDate" in point);   
+        console.log("getValue" in point);
+
+        var data = [7,8,9]; 
+        console.log("0" in data);
+        console.log(8 in data);
+        console.log(2 in data);
+        console.log(3 in data);
+        
+        //teste typeof
+        var f = function(){return 5;};
+        console.log( typeof f );
+        var x=5;
+        console.log( typeof x );
+
+        //desestruturação ES6
+        var pessoa = {
+            nome : "Felipe",
+            sobrenome : "Thomas",
+            curso : "TSI"
+        }
+
+        var {nome, sobrenome} = pessoa;
+        // var sobrenome = pessoa.sobrenome;
+        function name( {nome, sobrenome} ) {
+            console.log(nome);
+        }
+        name(pessoa);
+
+        console.log(nome, sobrenome);
+
+        var arr2 = [1,2,3,4,5,6];
+        var [a,b, ...resto] = arr2;
+        console.log(a,b, resto);
+
+        function add([...x]) {
+            var sum = 0;
+            for (let i = 0; i < x.length; i++) {
+                console.log(x[i]);
+                sum += parseInt(x[i]);
+            }
+            return sum;
+        }
+
+        console.log( add(arr2) );
 
 
 
