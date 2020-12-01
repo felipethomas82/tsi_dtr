@@ -115,6 +115,71 @@
         console.log(person2);
         console.log(person3);
 
+        console.log("------------ heranca --------------");
+
+        var log = console.log;
+        var pai={ nome:"Felipe", sobrenome:"Thomas"};
+        var filho = Object.create(pai);
+        log(pai, filho);
+        pai.sobrenome="Souza";
+        filho.nome="Fulano";
+        log(pai, filho);
+
+        var p = { x:1, y:1 };
+        // console.log(p.z.length); //não façam isto... dá bug
+        //falsy
+        if (p && p.z && p.z.length) {
+                console.log(p.z.length);
+        }
+
+        //teste DELETE
+        console.log(" -------------- TESTE DELETE -------------");
+        log(delete Object.prototype);
+        var x=1;
+        log(delete x);
+        function f(){};
+        log(delete f);
+        var pai={nome:"Felipe",sobrenome:"Thomas"};
+        log(delete pai);
+        log(delete pai.sobrenome);
+        log(pai);
+
+        console.log("  --- FOR IN  ----- ");
+        let carro = {
+            marca : "Fiat",
+            ano : "2000",
+            cor : "Branco",
+            obs : "Uno de firma"
+        }
+
+        let carro2 = Object.create(carro);
+        carro2.marca = "Chevrolet";
+
+        for (const prop in carro2) {
+            if (carro2.hasOwnProperty(prop)) {
+                const value = carro2[prop];
+                console.log(prop, value);
+            }
+        }
+
+        let testProperty = [ 'a', 'b', 'c', 'd', 'e', ];
+        testProperty.push('h');
+        Object.defineProperty(testProperty, 'otherProp', {
+            value : 'f',
+            enumerable : false,
+            writable : false
+        });
+
+        testProperty.otherProp = 'T';
+
+        console.log(testProperty);
+        console.log( Object.keys( testProperty ) );
+        for (const key in testProperty) {
+            if (testProperty.hasOwnProperty(key)) {
+                const element = testProperty[key];
+                console.log(key, element);
+            }
+        }
     </script>
 </body>
 </html>
