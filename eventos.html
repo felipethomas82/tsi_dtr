@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #caixa {
+            width: 300px;
+            height: 300px;
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="caixa">
+        <button id="btnTrocaCor">Clique aqui</button>
+    </div>
+
+    <script>
+        let marginLeft = 0;
+        let div = document.querySelector("#caixa");
+        let btn = document.querySelector("#btnTrocaCor");
+        function troca() {
+            let div = document.querySelector("#caixa");
+            div.style.backgroundColor = "red";
+        }
+
+        // btn.addEventListener("click", troca);
+
+        btn.addEventListener("click", function(event){
+            console.log(event);
+            div.style.backgroundColor = "red";
+        });
+
+        document.addEventListener("keydown", function(event) {
+            console.log(event.keyCode);
+            let code = event.keyCode;
+            if (code == 39) {
+                marginLeft++;
+                div.style.marginLeft = (marginLeft * 10 ) + "px";
+            }
+        });
+
+    </script>
+</body>
+</html>
