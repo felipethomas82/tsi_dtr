@@ -13,22 +13,46 @@
     <title>PokeGame - DTR TSI</title>
 
     <style>
+        @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900);
+        html, body, html * {
+            font-family: 'Roboto', sans-serif;
+        }
+
         .card-hidden {
             display: none;
         }
 
         .card {
-            height: 350px;
+            height: 360px;
             width: 200px;
             border: 10px solid #ebbe2a;
             padding: 15px;
             background-color: #bf960d;
             margin-right: 20px;
+            border-radius: 10px;
+            background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSLu9-fxFcKBhQYmfcotSmCbnwaTcoccDSwA&usqp=CAU)
         }
 
         .card .img_poke {
             width: 200px;
             background-color: white;
+        }
+        
+        .card .name {
+            font-size: 20px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .card .stats {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .card .stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
         }
 
         #hand {
@@ -36,6 +60,7 @@
             flex-direction: row;
             width: 100%;
         }
+    
     </style>
     
 </head>
@@ -48,14 +73,15 @@
     <div id="hand">
         <!-- oculta -->
         <div class="card card-hidden">
+            <div class="name"></div>
             <img src="" alt="" class="img_poke">
-            <div>Habilidades</div>
-            <div>HP: <span class="hp"></span> </div>
-            <div>Ataque: <span class="attack"></span></div>
-            <div>Defesa: <span class="defense"></span></div>
-            <div>Ataque Esp: <span class="special-attack"></span></div>
-            <div>Desefa Esp: <span class="special-defense"></span></div>
-            <div>Velocidade: <span class="speed"></span></div>
+            <div class="stats">Habilidades</div>
+            <div class="stat">HP <span class="hp"></span> </div>
+            <div class="stat">Ataque <span class="attack"></span></div>
+            <div class="stat">Defesa <span class="defense"></span></div>
+            <div class="stat">Ataque Especial <span class="special-attack"></span></div>
+            <div class="stat">Desefa Especial <span class="special-defense"></span></div>
+            <div class="stat">Velocidade <span class="speed"></span></div>
         </div>
     </div>
 
@@ -77,6 +103,7 @@
 
             function Card(data, id) {
                 this.id = id;
+                this.name = data.name;
                 this.img = data.sprites.other['official-artwork'].front_default;
                 this.hp = getStat(data, 0);
                 this.attack = getStat(data, 1);
@@ -84,7 +111,6 @@
                 this.specialAttack = getStat(data, 3);
                 this.specialDefense = getStat(data, 4);
                 this.speed = getStat(data, 5);
-                this.div;
             }
 
             function getStat(data, index) {
@@ -105,7 +131,7 @@
                 });
             }
 
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 3; i++) {
                 let pokeId = Math.round( Math.random(10000) * 100 );
                 fetchCard(pokeId);
             }
@@ -117,6 +143,7 @@
                 //seta o src do img da Divcard clonada
                 divCard.find('.img_poke').attr('src', card.img);
                 //seta os outros elementos da DIV
+                divCard.find('.name').html(card.name)
                 divCard.find('.hp').html(card.hp);
                 divCard.find('.attack').html(card.attack);
                 divCard.find('.defense').html(card.defense);
