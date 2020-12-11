@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script
+        src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
+
+
+    <title>PokeGame - DTR TSI</title>
+
+    <style>
+        .card-hidden {
+            display: none;
+        }
+
+        .card {
+            height: 350px;
+            width: 200px;
+            border: 10px solid #ebbe2a;
+            padding: 15px;
+            background-color: #bf960d;
+            margin-right: 20px;
+        }
+
+        .card .img_poke {
+            width: 200px;
+            background-color: white;
+        }
+
+        #hand {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+    </style>
+    
+</head>
+<body>
+
+    <!-- <div id="pokemon">
+        <img src="" alt="" id="img_poke"></img>
+    </div> -->
+
+    <div id="hand">
+        <!-- oculta -->
+        <div class="card card-hidden">
+            <img src="" alt="" class="img_poke">
+            <div>Habilidades</div>
+            <div>HP: <span class="hp"></span> </div>
+            <div>Ataque: <span class="attack"></span></div>
+            <div>Defesa: <span class="defense"></span></div>
+            <div>Ataque Esp: <span class="special-attack"></span></div>
+            <div>Desefa Esp: <span class="special-defense"></span></div>
+            <div>Velocidade: <span class="speed"></span></div>
+        </div>
+    </div>
+
+
+    <script>
+
+
+        // refs
+        // https://pokeapi.co/
+        // https://swapi.dev/
+        // http://oretrovisor.com/super-trunfo/
+        // https://www.pokemon.com/br/pokedex/ivysaur
+
+        //crie seus códigos dentro da funcao ready do Jquery
+        $(document).ready(function(){
+            const api = "https://pokeapi.co/api/v2/pokemon/";
+            let pokeStr = "pikachu";
+            // let pokeId = Math.round( Math.random(10000) * 100 );
+
+            function Card(data, id) {
+                this.id = id;
+                this.img = data.sprites.other['official-artwork'].front_default;
+                this.hp = getStat(data, 0);
+                this.attack = getStat(data, 1);
+                this.defense = getStat(data, 2);
+                this.specialAttack = getStat(data, 3);
+                this.specialDefense = getStat(data, 4);
+                this.speed = getStat(data, 5);
+                this.div;
+            }
+
+            function getStat(data, index) {
+                return data.stats[index].base_stat
+            }
+
+            function fetchCard( id ) {
+                //para consumir uma api com o ajax do jquery é muito simpls
+                $.ajax({
+                    url : api + id,
+                    dataType : 'json'
+                }).done( function(data){
+                    console.log(data);
+                    $('#img_poke'); //semelhante ao document.querySelector('#img_poke');
+                    $('#img_poke').attr('src', data.sprites.other['official-artwork'].front_default);
+                    let card = new Card(data, id);
+                    createCard(card);
+                });
+            }
+
+            for (let i = 0; i < 5; i++) {
+                let pokeId = Math.round( Math.random(10000) * 100 );
+                fetchCard(pokeId);
+            }
+
+
+            function createCard(card) {
+                let divCard = $('.card-hidden').clone();
+                divCard.removeClass('card-hidden');
+                //seta o src do img da Divcard clonada
+                divCard.find('.img_poke').attr('src', card.img);
+                //seta os outros elementos da DIV
+                divCard.find('.hp').html(card.hp);
+                divCard.find('.attack').html(card.attack);
+                divCard.find('.defense').html(card.defense);
+                divCard.find('.special-attack').html(card.specialAttack);
+                divCard.find('.special-defense').html(card.specialDefense);
+                divCard.find('.speed').html(card.speed);
+                //seta o id para podermos pegar esta div posteriormente
+                divCard.attr('id', card.id);
+                console.log(card);
+                //adiciona a div ao html
+                $('#hand').append(divCard);
+                //não é a forma ideal de criarmos o evento click ao elemento recem 
+                //criado, mas funciona...
+                divCard.click(function(){
+                    removeCard(card.id);
+                });
+            }
+
+            function removeCard(id) {
+                $('#' + id).remove();
+            }
+
+        });
+    </script>
+</body>
+</html>
