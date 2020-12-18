@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        function login(username, pass, success, error) {
+            // imagine que foi buscado um objeto json no server
+            if (username == "felipe" && pass == "1234") {
+                // sucesso
+                success(
+                {
+                    email : "felipe@ifsul.edu.br",
+                    username : username
+                });
+            } else {
+                // erro
+                error("Falha ao conectar o server");
+            }
+        }
+
+        function getMovies(username, success, error) {
+            if (username == "felipe") {
+                success(['Matrix', 'Star wars', 'Harry Potter']);
+            } else {
+                error("Erro ao buscar filmes");
+            }
+        }
+
+        function getBestMovie(username, success, error) {
+            if (username == "felipe") {
+                success('Star wars');
+            } else {
+                error("Erro ao buscar filmes");
+            }
+        }
+
+        let user;
+
+        function doLogin( user, pass) {
+            login( user, pass, 
+            
+            function(data){
+                console.log(data);
+                user = data;
+                getMovies(data.username, function(movies) {
+                    console.log(movies);
+                    getBestMovie( user.username, function(bestMovie){
+                        console.log(bestMovie);
+                    }, function(error) {
+                        console.log(error);
+                    })
+                }, 
+                function(error) {
+                    console.log(error);
+                })
+            }, 
+            function(error) {
+                console.log(error);
+            });
+        }
+
+        doLogin("felipe", "1234");
+
+    </script>
+</body>
+</html>

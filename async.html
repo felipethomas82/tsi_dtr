@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        function login(username, pass) {
+            return new Promise( (resolve, reject) => {
+                // imagine que foi buscado um objeto json no server
+                if (username == "felipe" && pass == "1234") {
+                    // sucesso
+                    resolve(
+                    {
+                        email : "felipe@ifsul.edu.br",
+                        username : username
+                    });
+                } else {
+                    // erro
+                    reject("Falha ao conectar o server");
+                }
+            })
+        }
+
+        function getMovies(username) {
+            return new Promise( (resolve, reject) => {
+                if (username == "felipe") {
+                    resolve(['Matrix', 'Star wars', 'Harry Potter']);
+                } else {
+                    reject("Erro ao buscar filmes");
+                }
+            });
+        }
+
+        function getBestMovie(username) {
+            return new Promise( (resolve, reject) => {
+                if (username == "felipe") {
+                    resolve('Star wars');
+                } else {
+                    reject("Erro ao buscar filmes");
+                }
+            });
+        }
+
+        let user;
+
+        async function doLogin( user, pass) {
+            try {
+                user = await login( user, pass);
+                let movies = await getMovies(user.username);
+                let bestMovie = await getBestMovie(user.username);
+                console.log(user);
+                console.log(movies);
+                console.log(bestMovie);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        async function getPokemon(params) {
+            let response = await fetch("https://pokeapi.co/api/v2/pokemon/1");
+            let json = await response.json();
+            console.log(json);
+        }
+
+        getPokemon();
+        doLogin("felipe", "1234");
+
+    </script>
+</body>
+</html>

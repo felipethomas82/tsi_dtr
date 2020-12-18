@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        function login(username, pass) {
+            return new Promise( (resolve, reject) => {
+                // imagine que foi buscado um objeto json no server
+                if (username == "felipe" && pass == "1234") {
+                    // sucesso
+                    resolve(
+                    {
+                        email : "felipe@ifsul.edu.br",
+                        username : username
+                    });
+                } else {
+                    // erro
+                    reject("Falha ao conectar o server");
+                }
+            })
+        }
+
+        function getMovies(username) {
+            return new Promise( (resolve, reject) => {
+                if (username == "felipe") {
+                    resolve(['Matrix', 'Star wars', 'Harry Potter']);
+                } else {
+                    reject("Erro ao buscar filmes");
+                }
+            });
+        }
+
+        function getBestMovie(username) {
+            return new Promise( (resolve, reject) => {
+                if (username == "felipe") {
+                    resolve('Star wars');
+                } else {
+                    reject("Erro ao buscar filmes");
+                }
+            });
+        }
+
+        let user;
+
+        function doLogin( user, pass) {
+            login( user, pass)
+            .then( data => {
+                console.log(data);
+                user = data;
+                return getMovies(user.username);
+            })
+            .then( movies => {
+                console.log(movies);
+                return getBestMovie(user.username);
+            })
+            .then( bestMovie => {
+                console.log(bestMovie);
+            })
+            .catch( error => {
+                console.log(error);
+            });
+        }
+
+        fetch("https://pokeapi.co/api/v2/pokemon/1")
+        .then( data => {
+           return data.json()
+        })
+        .then( data => {
+            console.log(data);
+        });
+
+        doLogin("felipe", "1234");
+
+    </script>
+</body>
+</html>
