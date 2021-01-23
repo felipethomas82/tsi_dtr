@@ -59,6 +59,35 @@
             display: flex;
             flex-direction: row;
             width: 100%;
+            justify-content: center;
+        }
+
+        #table-cards{
+            display: flex;
+            padding: 20px;
+            justify-content: space-evenly;
+            margin: 0 auto;
+        }
+
+        #options-selected {
+            display: flex;
+            justify-content: space-evenly;
+            font-size: 40px;
+            padding-right: 120px;
+            padding-left: 120px;
+            margin-bottom: 30px;
+        }
+
+        #versus {
+            font-size : 100px;
+            align-self: center;
+        }
+
+        .player-stats {
+            font-size: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
     
     </style>
@@ -70,6 +99,28 @@
         <img src="" alt="" id="img_poke"></img>
     </div> -->
 
+    <div id="table">
+        <div id="table-cards">
+            <div class="player-stats">
+                <div id="stack-player1"></div>
+                <div id="pack-player1"></div>
+            </div>
+            <div id="card-player1"></div>
+            <div id="versus">X</div>
+            <div id="card-player2"></div>
+            <div class="player-stats">
+                <div id="stack-player2"></div>
+                <div id="pack-player2"></div>
+            </div>
+        </div>
+        <div id="options-selected">
+            <div id="option-player1"></div>
+            <div id="option"></div>
+            <div id="option-player2"></div>
+        </div>
+    </div>
+
+    <div id="cpu-hand"></div>
     <div id="hand">
         <!-- oculta -->
         <div class="card card-hidden">
@@ -99,43 +150,138 @@
         $(document).ready(function(){
             const api = "https://pokeapi.co/api/v2/pokemon/";
             let pokeStr = "pikachu";
-            // let pokeId = Math.round( Math.random(10000) * 100 );
+
+            const optArray = [
+                    'hp',
+                    'attack',
+                    'defense',
+                    'specialAttack',
+                    'specialDefense',
+                    'speed'
+                ];
+
+            var game = {
+                maxCards : 32,
+                maxCardsHand : 5,
+                players : [],
+                option : "",
+                start : function(player1, player2) {
+                    player1.getCards();
+                    player2.getCards();
+                    this.players.push(player1);
+                    this.players.push(player2);
+                    setPositionAtTable(player1, 1);
+                    setPositionAtTable(player2, 2);
+                },
+                showHand : function() {
+                    for (let i = 0; i < this.maxCardsHand; i++) {
+                        //card go from stack to players hand
+                        const card = this.players[0].getCardFromStack();
+                        let obj = createCard( card );
+                        moveToHand( obj.div, obj.card );
+                    }
+                    // CPU
+                    for (let i = 0; i < this.maxCardsHand; i++) {
+                        //card go from stack to players hand
+                        this.players[1].getCardFromStack();
+                    }
+                    this.updatePlayerStats();
+                },
+                checkRoundWinner : function() {
+                    if (this.players[0].table[ this.option ] > this.players[1].table[ this.option ]) {
+                        alert (this.players[0].name + " venceu esta rodada");
+                        this.players[0].pack.push(this.players[1].table);
+                        this.players[0].pack.push(this.players[0].table);
+                    } else {
+                        alert (this.players[1].name + " venceu esta rodada");
+                        this.players[1].pack.push(this.players[1].table);
+                        this.players[1].pack.push(this.players[0].table);
+                    }
+                    this.clear();
+                    this.updatePlayerStats();
+                },
+                clear : function() {
+                    this.option = ""; //reset for another round
+                    removeCard(this.players[0].table.id);
+                    removeCard(this.players[1].table.id);
+                    this.players[0].table = {};
+                    this.players[1].table = {};
+
+                    const card = this.players[0].getCardFromStack();
+                    let obj = createCard( card );
+                    moveToHand( obj.div, obj.card );
+
+                    this.players[1].getCardFromStack();
+                },
+                updatePlayerStats : function() {
+                    printPlayerStat(this.players[0]);
+                    printPlayerStat(this.players[1]);
+                }
+            }
+
+            function Player(name) {
+                this.name = name;
+                this.stack = []; //all cards to play
+                this.hand = []; //5 cards at time
+                this.pack = []; //cards won in a turn
+                this.table = {}; //card at table
+            }
+
+            Player.prototype.getCards = function() {
+                for (let i = 0; i < game.maxCards; i++) {
+                    let pokeId = getRandomInt(1, 895); // in tests I found 898 ids
+                    fetchCard(pokeId, this);
+                }
+            }
+
+            Player.prototype.getCardFromStack = function() {
+                const card = this.stack.pop();
+                this.hand.push( card );
+                return card;
+            }
+
+            Player.prototype.playCard = function(id) {
+                // when has a id, there is a card in table
+                if ( this.table.id ) return;
+                let index = this.hand.findIndex( (card) => {
+                    return card.id == id;
+                });
+                const card = this.hand.splice(index, 1)[0];
+                this.table = card;
+                if (game.option == "") {
+                    game.option = showOptions(card);
+                }
+                showOptionSelectd(this, card, game.option);
+                moveCard( this, card.id );
+            }
 
             function Card(data, id) {
                 this.id = id;
                 this.name = data.name;
                 this.img = data.sprites.other['official-artwork'].front_default;
-                this.hp = getStat(data, 0);
-                this.attack = getStat(data, 1);
-                this.defense = getStat(data, 2);
-                this.specialAttack = getStat(data, 3);
-                this.specialDefense = getStat(data, 4);
-                this.speed = getStat(data, 5);
+                this.hp = parseInt(getStat(data, 0));
+                this.attack = parseInt(getStat(data, 1));
+                this.defense = parseInt(getStat(data, 2));
+                this.specialAttack = parseInt(getStat(data, 3));
+                this.specialDefense = parseInt(getStat(data, 4));
+                this.speed = parseInt(getStat(data, 5));
             }
 
             function getStat(data, index) {
                 return data.stats[index].base_stat
             }
 
-            function fetchCard( id ) {
+            function fetchCard( id, player ) {
                 //para consumir uma api com o ajax do jquery é muito simpls
                 $.ajax({
                     url : api + id,
                     dataType : 'json'
                 }).done( function(data){
-                    console.log(data);
-                    $('#img_poke'); //semelhante ao document.querySelector('#img_poke');
-                    $('#img_poke').attr('src', data.sprites.other['official-artwork'].front_default);
                     let card = new Card(data, id);
-                    createCard(card);
+                    player.stack.push(card);
+                    return card;
                 });
             }
-
-            for (let i = 0; i < 3; i++) {
-                let pokeId = Math.round( Math.random(10000) * 100 );
-                fetchCard(pokeId);
-            }
-
 
             function createCard(card) {
                 let divCard = $('.card-hidden').clone();
@@ -152,19 +298,118 @@
                 divCard.find('.speed').html(card.speed);
                 //seta o id para podermos pegar esta div posteriormente
                 divCard.attr('id', card.id);
-                console.log(card);
+                return {
+                    'div'  : divCard,
+                    'card' : card
+                };
+            }
+
+            function moveToHand( divCard, card ) {
                 //adiciona a div ao html
                 $('#hand').append(divCard);
                 //não é a forma ideal de criarmos o evento click ao elemento recem 
                 //criado, mas funciona...
                 divCard.click(function(){
-                    removeCard(card.id);
+                    // removeCard(card.id);
+                    // for a while, just player1 play card with click event
+                    player1.playCard( card.id );
+                    CPUplay();
                 });
+            }
+
+            function CPUplay() {
+                let value = player1.table[ game.option ];
+                //find a card to play against
+                let cardSelected = player2.hand.filter(function(card) {
+                    return card[game.option] > value;
+                })[0];
+                if (!cardSelected) {
+                    let index = getWorstCard(player2.hand);
+                    cardSelected = player2.hand[index];
+                }
+                let obj = createCard( cardSelected );
+                $('#cpu-hand').append( obj.div );
+                player2.playCard( cardSelected.id );
+
+                setTimeout(() => {
+                    game.checkRoundWinner();
+                }, 4000);
+            }
+
+            function getWorstCard(hand) {
+                let sumStats = 10000;
+                let index = 0;
+                for (let i = 0; i < hand.length; i++) {
+                    const card = hand[i];
+                    let sum = card.hp + 
+                            card.attack + 
+                            card.defense +
+                            card.specialAttack +
+                            card.specialDefense +
+                            card.speed;
+                    if (sum < sumStats) {
+                        sumStats = sum;
+                        index = i;
+                    }
+                }
+                return index;
             }
 
             function removeCard(id) {
                 $('#' + id).remove();
             }
+
+            function moveCard( player, id ) {
+                $('#' + id).detach().appendTo( `.card-${player.name}` );
+            }
+
+            function setPositionAtTable(player, position) {
+                $(`#card-player${position}`).addClass(`card-${player.name}`);
+                $(`#option-player${position}`).addClass(`option-${player.name}`);
+                $(`#stack-player${position}`).addClass(`stack-${player.name}`);
+                $(`#pack-player${position}`).addClass(`pack-${player.name}`);
+            }
+
+            function printPlayerStat( player ) {
+                $(`.stack-${player.name}`).html( `Pilha: ${player.stack.length}` );
+                $(`.pack-${player.name}`).html( `Cartas ganhas: ${player.pack.length}` );
+            }
+
+            function showOptionSelectd( player, card, option ) {
+                $('#option').html(option);
+                $(`.option-${player.name}`).html(card[option]);
+            }
+
+            function showOptions( card ) {
+                let options = `
+                                1) HP: ${card.hp}
+                                2) Ataque: ${card.attack}
+                                3) Defesa: ${card.defense}
+                                4) Ataque especial: ${card.specialAttack}
+                                5) Defesa especial: ${card.specialDefense}
+                                6) Velocidade: ${card.speed}`;
+                let selected = 0;
+                while (selected < 1 || selected > 6) {
+                    selected = window.prompt("Escolha uma opção\n\n" + options);
+                }
+                return optArray[selected-1];
+            }
+
+            // https://stackoverflow.com/questions/1527803/generating-random-whole-numbers-in-javascript-in-a-specific-range
+            function getRandomInt(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            //start a game
+            var player1 = new Player('Felipe');
+            var player2 = new Player('CPU');
+
+            game.start(player1, player2);
+            setTimeout(() => {
+                game.showHand();
+            }, 3000);
 
         });
     </script>
