@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 01</title>
+
+    <img src="sabre1.png" alt="" id="sabre">
+    <button onclick="troca()">Troca</button>
+</head>
+<body>
+    <script>
+
+        function troca() {
+            let sabre = document.getElementById("sabre");
+            if (sabre.src.indexOf("sabre1") >= 0) {
+                sabre.src = "sabre2.png";
+            } else {
+                sabre.src = "sabre1.png";
+            }
+        }
+        // document.write("<h1>Meu primeiro JS</h1>");
+        // alert("Meu primeiro JS");
+        function qualquer() {
+            // var x;
+            // let x = 2;
+            // console.log(x);
+            // console.log(y);
+            // let y = 3;
+            // console.log(y);
+
+            // const nome = "Felipe";
+            // console.log(nome);
+            // nome = "Tirulipa"; //erro
+
+            var teste = 12;
+            console.log(typeof(teste));
+            teste = "oi";
+            console.log(typeof(teste));
+
+            let str1 = "Aula ";
+            let str2 = "DTR";
+            let str3 = str1 + str2;
+            console.log(str3);
+            console.log("----------------");
+            console.log(5 + 5);
+            console.log(5 + "5");
+            console.log(5 + 5 + "5");
+            console.log("<h1>" + 5 + 5 + "</h1>");
+            console.log("------------------");
+            console.log(12 == 12); //true
+            console.log(12 == "12"); //true
+            console.log("12" == 12); //true
+            console.log(12 === 12); //true
+            console.log("12" === 12); //true
+            console.log("undefined" == undefined); //false
+            console.log("undefined" === undefined); //false
+
+
+
+
+        }
+
+        qualquer();
+    </script>
+</body>
+</html>
