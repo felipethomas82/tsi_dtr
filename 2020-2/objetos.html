@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const obj1 = {};
+        console.log(obj1);
+        console.log(obj1.toString());
+
+        const obj2 = new Object();
+        console.log(obj2);
+
+        let obj3 = Object.create(null);
+        // não adicione propriedades no formato abaixo
+        // obj3 = {
+        //     name : "Felipe"
+        // }
+        //adicionando propriedade com ponto
+        obj3.name = "Felipe";
+        //com colchetes
+        obj3["lastName"] = "Thomas";
+        const AGE = "age";
+        obj3[ AGE ] = 39;
+        //adicionando método
+        obj3.sayMyName = function() {
+            console.log(`${this.name} ${this.lastName}`);
+        }
+        console.log(obj3);
+        obj3.sayMyName();
+
+        console.log("-------- Criando objeto literal ------------");
+        const veiculo = {
+            marca : "Volks",
+            cor : "Azul",
+            potencia : "120HP",
+            velocidade : 0,
+            velocidadeMaxima : 200,
+            outroObjeto : {
+                outraPropriedade : "qualqueCoisa",
+                outroMetodo : () => {}
+            },
+            acelerar : function() {
+                if (this.velocidade < 200) {
+                    this.velocidade += 10;
+                }
+            },
+            frear : function() {
+                if (this.velocidade > 0) {
+                    this.velocidade -= 10;
+                }
+            }
+        }
+
+        console.log(veiculo);
+        console.log("Usando o objeto veiculo");
+        veiculo.acelerar();
+        veiculo.acelerar();
+        veiculo.acelerar();
+        veiculo.acelerar();
+        console.log(veiculo.velocidade);
+        veiculo.frear();
+        console.log(veiculo.velocidade);
+        veiculo.cor = "Amarelo";
+        console.log(veiculo);
+
+        //nao podemos fazer isto para criar nosso objeto filho
+        // const carro = veiculo;
+        //para criar um objeto filho, usamos o create
+        const carro = Object.create(veiculo);
+        carro.conversivel = true;
+        carro.cor = "Vermelho";
+        carro.acelerar = function() {
+            this.velocidade += 5;
+        }
+        carro.acelerar();
+        console.log(carro);
+        console.log(carro.cor);
+        // console.log(veiculo);
+
+        console.log("ATIVIDADE SLIDE");
+        const pessoa = Object.create(null);
+        pessoa.primeiroNome = "Felipe";
+        pessoa.ultimoNome = "Thomas";
+        pessoa.altura = 1.86;
+        pessoa.peso = 84;
+        pessoa.sexo = 'M';
+        console.log(pessoa);
+
+        const pessoa2 = {
+            primeiroNome : "Felipe",
+            ultimoNome : "Thomas",
+            altura : 1.86,
+            peso : 84,
+            sexo : 'M'
+        }
+        console.log(pessoa2);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function minhaFuncao() {
+            //nunca façam isto. Declarar sem var, let e const...
+            teste = "teste de valor";
+        }
+        minhaFuncao();
+        console.log(teste);
+
+        function add(x, y) {
+            const total = x + y;
+            return total;
+        }
+
+        console.log( add(3, 2) );
+
+        function exemploUndefined(x) {
+            console.log("Exemplo de funcao sem passar parametro");
+            console.log(x);
+        }
+
+        exemploUndefined();
+
+        //atividades slides
+        function areaQuadrado(l) {
+            return l * l;
+        }
+
+        function areaRetangulo(l, a) {
+            return l * a;
+        }
+
+        function areaCirculo(r) {
+            return Math.PI * (r * r);
+        }
+
+        console.log(areaQuadrado(2));
+        console.log(areaRetangulo(2, 4));
+        console.log( areaCirculo(10).toFixed(2) );
+
+        console.log("Com expressao de funcao");
+        const areaQuad = function(l) {
+            return l * l;
+        }
+
+        console.log(areaQuad(2));
+        console.log(areaQuad);
+
+        function seiLa() {
+            console.log(arguments);
+        }
+
+        seiLa(1,2,3,4,4,"5",5,6,[1,2,3], { name : "Felipe" });
+
+        console.log("teste de escopo com var");
+        function test(o) {
+            console.log(k);
+            if(o!=0){
+                //troque para let e teste o mesmo codigo
+                for (var k=0; k<10;k++){
+                    console.log(k);
+                }
+                console.log(k);
+            }
+            console.log(k);
+        }
+
+        test(1);
+
+        console.log("--->>> THIS <<<--- ");
+        console.log(this);
+        function testeThis() {
+            console.log(this === window);
+            console.log(this);
+        }
+
+        testeThis();
+
+        const objThis = {
+            name : "Felipe",
+            lastName : "Thomas",
+            arr : [1,2,3,4,5],
+            mult : 2,
+            sayHello : function() {
+                console.log(this);
+                console.log(`Oi ${this.name} ${this.lastName}`);
+            },
+            mapArray : function() {
+                // const that = this;
+                this.arr.map((value) => {
+                    // console.log(this);
+                    console.log(value * this.mult);
+                });
+            }
+        }
+
+        objThis.sayHello();
+        objThis.mapArray();
+
+        //operador in
+        console.log("Operador in");
+        var point = new Date(); 
+        console.log("getDate" in point);   
+        console.log("getValue" in point);
+
+        var data = [7,8,9]; 
+        console.log("0" in data);
+        console.log(1 in data);
+        console.log(3 in data);
+
+        console.log("typeof");
+        var f = function(){return 5;};
+        console.log( typeof f );
+        var x=5;
+        console.log( typeof x );
+
+
+
+    </script>
+</body>
+</html>
