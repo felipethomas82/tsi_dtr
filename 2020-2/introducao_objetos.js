@@ -195,3 +195,42 @@ console.log(t);
 
 const w = h.map( x => x * 2 )
 console.log(w);
+
+console.log("---- Destructuring ----");
+const car = { 
+    type : "Uno",
+    maxVelocity : 200,
+    color : "white" 
+};
+
+let { type, maxVelocity, color} = car;
+
+console.log(type);
+
+function showCar( { type = "padrao", maxVelocity = "padrao", color = "padrao", x = "padrao" } ) {
+    console.log( type );
+    console.log( color );
+    console.log(x);
+}
+
+function showCar2( _car ) {
+    const type = _car.type ? _car.type : "padrao";
+    const maxVelocity = _car.maxVelocity ? _car.maxVelocity : "padrao";
+    const color = _car.color ? _car.color : "padrao";
+    const x = _car.x ? _car.x : "padrao";
+    console.log( type );
+    console.log( color );
+    console.log(x);
+}
+
+showCar( car );
+showCar2( car );
+
+const arr2 = [1,2,3,4,5,6];
+const [d1,d2,d3, ...d4] = arr2;
+console.log(d1);
+console.log(d2);
+console.log(d3);
+console.log(d4);
+
+

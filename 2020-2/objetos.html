@@ -100,6 +100,74 @@
         }
         console.log(pessoa2);
 
+        console.log("Teste object create");
+        
+        const pai = { 
+            nome: "Felipe", 
+            sobrenome: "Thomas" 
+        };
+        const filho = Object.create(pai);
+        console.log(pai, filho);
+        filho.nome = "Fulano";
+        console.log(pai, filho);
+        pai.sobrenome = "Souza";
+        console.log(filho.sobrenome);
+        filho.sobrenome = "Thomas";
+        console.log(filho.sobrenome);
+
+        console.log(" ---  Erros ao acessar propriedades --- ");
+        const ponto = {
+            x : 1,
+            y : 1
+        }
+        console.log(ponto.z);
+
+        // console.log(ponto.z.length); //exceção não tratada
+        // console.log("Não exibe isto...");
+
+        if (ponto) {
+            if (ponto.z) {
+                console.log(ponto.z.length);
+            }
+        }
+
+        if (ponto && ponto.z) {
+            console.log(ponto.z.length);
+        }
+
+        const len = ponto && ponto.z && ponto.z.length;
+        console.log(len);
+        console.log("Tudo certo agora, não vai travar");
+
+        console.log( delete Object.prototype );
+        var x=1;
+        console.log( delete x );
+        function f(){};
+        console.log( delete f );
+        var pai2={
+            nome:"Felipe",
+            sobrenome:"Thomas",
+            idade : undefined
+        };
+        console.log( pai2 );
+        console.log( delete pai2.sobrenome );
+        console.log( pai2 );
+
+        console.log( "idade" in pai2 );
+        console.log(pai2.idade !== undefined);
+
+        console.log("teste hasOwnProperty");
+
+        const filho2 = Object.create(pai2);
+        filho2.nome = "Tirulipa";
+        for (const key in filho2) {
+            if (Object.hasOwnProperty.call(filho2, key)) {
+                const element = filho2[key];
+                console.log(key);
+                console.log(element);
+            }
+        }
+
     </script>
 </body>
 </html>
