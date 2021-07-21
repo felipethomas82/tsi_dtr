@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        console.log("Aula construtores");
+
+        function Pessoa( nome, sobrenome ) {
+
+            this.nome = nome;
+            this.sobrenome = sobrenome;
+            this.altura = 0;
+
+            // o ideal não é declarar métodos no corpo funcao construtora
+            // this.sayMyName = function() {
+            //     return `${this.nome} ${this.sobrenome}`;
+            // }
+
+        }
+
+        Pessoa.prototype.sayMyName = function() {
+                return `${this.nome} ${this.sobrenome}`;
+            }
+
+        const pessoa = new Pessoa( "Felipe", "Thomas");
+        pessoa.peso = 80;
+
+        // não façam isto, é apenas didático...
+        // Pessoa("Outra", "Pessoa");
+        // console.log(this.nome);
+        // console.log(this.sobrenome);
+        // console.log(this);
+
+        console.log(pessoa);
+        console.log(pessoa.sayMyName());
+
+        const pessoa2 = new Pessoa("Papai", "Noel");
+        const pessoa3 = new Pessoa("Coelhinho", "da Páscoa");
+        const pessoa4 = new Pessoa("Luke", "Skywalker");
+
+        console.log(pessoa2);
+        console.log(pessoa3);
+        console.log(pessoa4);
+
+    </script>
+</body>
+</html>
