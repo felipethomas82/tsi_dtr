@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <title>Document</title>
+    <style>
+        .verde {
+            color : greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1">
+        Div 1
+        <div id="divi1">Div 1 interna</div>
+        <div id="divi2">Div 2 interna</div>
+        <p id="paragrafo1">Tag P da div 1</p>
+    </div>
+    <div id="div2" class="div2">Div 2</div>
+    <div id="div3">
+        <h1>Div 3</h1>
+        <p class="verde" id="p1-div3">P 1</p>
+        <p class="verde">P 2</p>
+        <p class="verde">P 3</p>
+    </div>
+    <div id="div4">Troque por um H1</div>
+
+    <input type="text" id="ipt" value="valor padrão">
+
+    <script>
+        const div1 = document.getElementById("div1");
+        console.log(div1);
+
+        const pr = document.getElementsByClassName("verde");
+        console.log(pr);
+        pr[0].style.color = "pink";
+
+        const els = document.getElementsByTagName("div");
+        console.log(els);
+        els[3].style.border = "7px solid red";
+
+        const div2 = document.querySelector("#div2");
+        console.log(div2);
+        div2.style.backgroundColor = "yellow";
+
+        const divs = document.querySelectorAll(".div2");
+        console.log(divs);
+
+        const p1 = document.querySelectorAll(".verde")[0];
+        p1.innerText = "Teste de novo texto";
+
+        const div3 = document.querySelector("#div3");
+        //não façam isto senão irão sobrescrever todo o conteúdo da DIV
+        // div3.innerHTML = "Novo texto da Div 3";
+
+        const div4 = document.querySelector("#div4");
+        // div4.innerText = "<h1>TROQUEI</h1>";
+        div4.innerHTML = "<h1>TROQUEI</h1>";
+
+        const ipt = document.querySelector("#ipt");
+        console.log(ipt.value);
+        ipt.value = "Novo valor do input";
+
+        div1.style.border = "2px dotted black";
+
+        // div1.classList.add("animate__animated");
+        // div1.classList.add("animate__fadeOut");
+        div1.classList.add("verde"); //adiciona uma classe ao elemento
+
+        setTimeout(() => {
+            div1.classList.remove("verde"); //remove a classe do elemento
+        }, 3000);
+
+        setTimeout(() => {
+            div1.classList.toggle("verde");
+        }, 5000);
+
+        div3.style.border = "2px solid black";
+        //criando elementos
+        const criado = document.createElement("p");
+        console.log(criado);
+        criado.innerHTML = "Elemento <b>criado dinamicamente</b>";
+        // div3.append(criado); //adiciona ao final
+        // div3.prepend(criado); //adiciona no início
+
+        const p1Div3 = document.querySelector("#p1-div3");
+        div3.insertBefore(criado, p1Div3);
+
+        console.log(div3.children);
+        div3.children[1].style.color = "blue";
+
+        console.log("Elemento pai do p1 div 3");
+        console.log(p1Div3.parentNode);
+        console.log(p1Div3.parentElement);
+
+        //cuidado ao usar esta propriedade, pois os espaços em branco irão ser retornados como um NodeList
+        console.log(div3.childNodes);
+
+        console.log(div3.firstChild);
+        console.log(div3.lastChild);
+    </script>
+</body>
+</html>

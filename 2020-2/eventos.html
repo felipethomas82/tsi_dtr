@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box {
+            width : 100px;
+            height: 100px;
+            background-color:greenyellow;
+        }
+        body {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="box" > DIV </div>
+    <button id="btn" data-id="1256" data-teste="Teste" data-outro="outro atributo">Clique aqui</button>
+
+    <script>
+        const box = document.querySelector("#box");
+        function troca() {
+            box.style.backgroundColor = "hotpink";
+        }
+
+        function troca2() {
+            var rndCol = 'rgb(' + Math.random(255) * 100 + ',' + Math.random(255) * 100 + ',' + Math.random(255) * 100 + ')';
+            box.style.backgroundColor = rndCol;
+        }
+
+        const btn = document.querySelector("#btn");
+
+        // btn.addEventListener("click", troca );
+
+        // btn.addEventListener("click", function() {
+        //     box.style.backgroundColor = "hotpink";
+        // });
+
+        // box.addEventListener("mouseover", troca2);
+
+        // box.removeEventListener("mouseover", troca2);
+
+        btn.onclick = function( e ) {
+            e.preventDefault();//ideal para submit de forms. Não dar o refresh na pagina
+            e.stopPropagation(); //impede o borbulhamento
+            console.log( e );
+            box.style.backgroundColor = "hotpink";
+            console.log('ID DO BTN');
+            console.log(e.target.dataset);
+        };
+
+        let marginLeft = 0;
+        document.addEventListener("keyup", function( e ) {
+            console.log(e.keyCode);
+            if (e.keyCode == 39) {
+                marginLeft += 20;
+            }
+            if (e.keyCode == 37) {
+                marginLeft -= 20;
+            }
+            box.style.marginLeft = `${marginLeft}px`;
+        })
+
+    </script>
+</body>
+</html>
