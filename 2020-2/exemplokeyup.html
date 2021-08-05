@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <title>Document</title>
+</head>
+<body>
+
+    <input type="text" name="" id="ipt">
+    <p id="textoipt"></p>
+    <p id="textoipt2"></p>
+
+    <script>
+
+        // const p = document.querySelector("#textoipt");
+        // const p2 = document.querySelector("#textoipt2");
+        // document.querySelector("#ipt").onkeyup = function(e) {
+        //     // console.log(e.keyCode);
+        //     p.innerText = this.value;
+        //     p2.innerText = this.value;
+        // }
+
+        const p = $("#textoipt");
+        const p2 = $("#textoipt2");
+        $("#ipt").on("keyup", function(e){
+            p.text( $(this).val() );
+            p2.text( $(this).val() );
+        });
+    </script>
+</body>
+
+</html>

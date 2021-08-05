@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- production version, optimized for size and speed -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" name="" v-model:value="texto">
+        <p> {{ texto }} </p>
+        <p> {{ texto }} </p>
+
+        <input type="text" name="" v-model:value="id">
+        <button @click="clickBtn">Carregar</button>
+        <h2>{{ pokeCard.name }}</h2>
+        <img v-bind:src="pokeCard.sprites.other['official-artwork'].front_default" alt="" srcset="">
+    </div>
+
+    <script>
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                pokeCard : null,
+                texto : "Padrao",
+                id : 1
+            },
+            methods : {
+                clickBtn() {
+                    axios
+                    .get(`https://pokeapi.co/api/v2/pokemon/${this.id}`)
+                    .then(response => (this.pokeCard = response.data))
+                },
+            },
+            mounted() {
+                axios
+                .get(`https://pokeapi.co/api/v2/pokemon/${this.id}`)
+                .then(response => (this.pokeCard = response.data))
+            }
+
+        })
+
+    </script>
+</body>
+</html>
