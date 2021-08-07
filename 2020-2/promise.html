@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // setTimeout(function() {
+        //     console.log("Executou o callback...");
+        // }, 1000);
+
+        const fakeJson = {
+            username : "felipe",
+            name : "Felipe",
+            lastName : "Thomas"
+        }
+
+        function login(username, password) {
+            return new Promise( function(resolve, reject) {
+                if (username == "felipe" && password == "12345") {
+                    resolve( fakeJson );
+                } else {
+                    reject( "Erro ao efetuar o login" );
+                }
+            });
+        }
+
+        function getMovies( username ) {
+            return new Promise((resolve, reject) => {
+                if (username == "felipe") {
+                    resolve( ["Star Wars", "Herry Potter", "Matrix"] );
+                } else {
+                    reject("Erro ao buscar os filmes");
+                }
+            })
+        }
+
+        function getIMDB( movie ) {
+            return new Promise( (resolve, reject) => {
+                //nota IMBD simulada (qualquer filme)
+                resolve( 8.8 );
+            });
+        }
+
+        function doLogin( username, password ) {
+
+            login(username, password)
+            .then(function(data) {
+                console.log("Tudo certo, conectou ao BD...");
+                console.log(data);
+                return getMovies(data.username);
+            })
+            .then(function( movies ) {
+                console.log(movies);
+                return getIMDB( movies[0] );
+            })
+            .then( function( score ) {
+                console.log(score);
+            })
+            .catch(function( erro ) {
+                console.log("Ooppss, deu algo errado");
+                console.log( erro );
+            });
+        }
+
+        doLogin("felipe", "12345");
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // setTimeout(function() {
+        //     console.log("Executou o callback...");
+        // }, 1000);
+
+        const fakeJson = {
+            username : "felipe",
+            name : "Felipe",
+            lastName : "Thomas"
+        }
+
+        function login(username, password) {
+            return new Promise( function(resolve, reject) {
+                if (username == "felipe" && password == "12345") {
+                    resolve( fakeJson );
+                } else {
+                    reject( "Erro ao efetuar o login" );
+                }
+            });
+        }
+
+        function getMovies( username ) {
+            return new Promise((resolve, reject) => {
+                if (username == "felipe") {
+                    resolve( ["Star Wars", "Herry Potter", "Matrix"] );
+                } else {
+                    reject("Erro ao buscar os filmes");
+                }
+            })
+        }
+
+        function getIMDB( movie ) {
+            return new Promise( (resolve, reject) => {
+                //nota IMBD simulada (qualquer filme)
+                resolve( 8.8 );
+            });
+        }
+
+        async function doLogin( username, password ) {
+
+            try {
+                const user = await login(username, password);
+                console.log(user);
+                const movies = await getMovies(user.username);
+                console.log(movies);
+                const imdb = await getIMDB( movies[0] );
+                console.log(imdb);
+            } catch (error) {
+                console.log(error);
+            }
+
+        }
+
+        doLogin("felipe", "12345");
+    </script>
+</body>
+</html>

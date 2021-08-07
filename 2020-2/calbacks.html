@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // setTimeout(function() {
+        //     console.log("Executou o callback...");
+        // }, 1000);
+
+        const fakeJson = {
+            username : "felipe",
+            name : "Felipe",
+            lastName : "Thomas"
+        }
+
+        function login(username, password, success, error) {
+            if (username == "felipe" && password == "12345") {
+                success( fakeJson );
+            } else {
+                error( "Erro ao efetuar o login" );
+            }
+        }
+
+        function getMovies( username, success, error ) {
+            if (username == "felipe") {
+                success( ["Star Wars", "Herry Potter", "Matrix"] );
+            } else {
+                error("Erro ao buscar os filmes");
+            }
+        }
+
+        function getIMDB( movie, success ) {
+            //nota IMBD simulada (qualquer filme)
+            success( 8.8 );
+        }
+
+        function doLogin( username, password ) {
+
+            login(username, password, 
+                function( data ) {
+                    console.log("Tudo certo, conectou ao BD...");
+                    console.log(data);
+                    getMovies( data.username, 
+                        function( movies ) {
+                            console.log(movies);
+                            getIMDB( movies[0], function( score ) {
+                                console.log(score);
+                            });
+                        }, 
+                        function( erro ) {
+                            console.log("Ooppss, deu algo errado");
+                            console.log( erro );
+                        }
+                    );
+                },
+                function( erro ) {
+                    console.log("Ooppss, deu algo errado");
+                    console.log( erro );
+                }
+            );
+
+        }
+
+        doLogin("felipe", "12345");
+
+    </script>
+</body>
+</html>
