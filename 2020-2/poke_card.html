@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <title>Document</title>
+
+    <style>
+                .card {
+            background-color: greenyellow;
+            width: 180px;
+            margin-left: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card .img_poke {
+            width: 150px;
+            background-color : white;
+            margin-bottom: 20px;
+        }
+
+        .invisible {
+            display: none;
+        }
+
+        #table {
+            display: flex;
+        }
+
+        .poke_stats {
+            width: 120px;
+            padding: 10px;
+            background-color: white;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="invisible card-model">
+        <h3 class="name"></h3>
+        <img src="" alt="" srcset="" class="img_poke">
+        <div class="poke_stats">
+            <p class="hp stat"></p>
+            <p class="attack stat"></p>
+            <p class="defense stat"></p>
+        </div>
+    </div>
+
+    <div id="table">
+
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            //aqui dentro é o Jquery em si...
+
+            const api = "https://pokeapi.co/api/v2/pokemon/"
+            // let id = 400;
+            const cards = [];
+
+            function Card( json ) {
+                this.img = json.sprites.other["official-artwork"].front_default;
+                this.name = json.name;
+                this.hp = json.stats[0].base_stat;
+                this.attack = json.stats[1].base_stat;
+                this.defense = json.stats[2].base_stat;
+            }
+
+            function fetchCard( id ) {
+                // ajax com o método ajax do Jquery. 
+                $.ajax({
+                    url : api + id,
+                    dataType : "json"
+                }).done(function( dados ) {
+                    // console.log(dados);
+                    // document.querySelector("#img_poke").src = dados.sprites.other["official-artwork"].front_default;
+                    // $('#img_poke').attr("src", dados.sprites.other["official-artwork"].front_default );
+                    const card = new Card( dados );
+                    cards.push( card );
+                });
+            }
+
+            function printCard( card ) {
+                const cardHtml = $(".card-model").clone();
+                cardHtml.removeClass("card-model").removeClass("invisible").addClass("card");
+                cardHtml.find(".name").html( card.name );
+                cardHtml.find(".hp").html( `HP: ${card.hp}` );
+                cardHtml.find(".attack").html( `Ataque: ${card.attack}` );
+                cardHtml.find(".defense").html( `Defesa: ${card.defense}` );
+                cardHtml.find(".img_poke").attr( "src", card.img );
+                $("#table").append(cardHtml);
+            }
+            
+            fetchCard( 1 );
+            fetchCard( 2 );
+            fetchCard( 3 );
+            fetchCard( 4 );
+
+            setTimeout(() => {
+                console.log(cards);
+                printCard( cards[0] );
+                printCard( cards[1] );
+                printCard( cards[2] );
+                printCard( cards[3] );
+            }, 3000);
+
+            // ajax com a api fetch do JS
+            // fetch(api + id)
+            // .then(function( response ) {
+            //     return response.json();
+            // })
+            // .then(function(dados){
+            //     document.querySelector("#img_poke").src = dados.sprites.other["official-artwork"].front_default;
+            // });
+
+        });
+    </script>
+</body>
+</html>
