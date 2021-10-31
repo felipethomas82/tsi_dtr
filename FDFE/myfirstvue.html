@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <span :title="testeBind">
+            {{ message }}
+        </span>
+
+        <h1>Meias</h1>
+        <h4 v-if="qtd < 10 && qtd > 1">Quase acabando</h4>
+        <h4 v-else-if="qtd == 0">Acabou</h4>
+    </div>
+
+    <div id="vanilla"></div>
+
+    <script>
+        var app = new Vue({
+            el : "#app",
+            data : {
+                message : "Hello Vue",
+                testeBind : "Texto adicionado via bind",
+                qtd : 100
+            }
+        });
+    </script>
+
+    <script>
+        const element = document.querySelector("#vanilla");
+        let message = "Hello Vanilla";
+        element.innerHTML = message;
+    </script>
+</body>
+</html>
