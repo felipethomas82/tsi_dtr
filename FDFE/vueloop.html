@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
+
+    <style>
+        body {
+            background-image: url("https://th.bing.com/th/id/OIP.V5y1gHDnG84amKQi7cBRogHaE8?pid=ImgDet&rs=1");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        #app {
+            margin: 0 auto;
+            width: 200px;
+            background-color: rgba(255,255,255, 0.8);
+            padding : 20px;
+            border-radius: 20px 20px 20px 20px;
+        }
+
+        ol {
+            margin-left: 20px;
+            padding: 0;
+        }
+    </style>
+
+    <title>Aula Loops - Eventos - Two-way binding</title>
+</head>
+<body>
+    <div id="app">
+        <h2>Lista de compras</h2>
+        <ol>
+            <li v-for="compra in lista">
+                {{ compra.item }}
+            </li>
+        </ol>
+        <input type="text" v-model="novoItem">
+        <button @click="adicionar">Adicionar item</button>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el : "#app",
+            data : {
+                lista : [
+                    { item : "Pão" },
+                    { item : "Leite" },
+                    { item : "Arroz" },
+                    { item : "Feijão" },
+                    { item : "Carne" }
+                ],
+                novoItem : ""
+            },
+            methods : {
+                adicionar : function() {
+                    if (this.novoItem != "") {
+                        this.lista.push({ item : this.novoItem });
+                        this.novoItem = "";
+                    } 
+                }
+            }
+        })
+    </script>
+</body>
+</html>
