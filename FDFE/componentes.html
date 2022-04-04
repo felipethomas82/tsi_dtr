@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <blog-post v-for="post in posts" :post="post" :key="post.id"></blog-post>
+        
+    </div>
+
+    <template id="blog">
+        <div>
+            <h3>{{ post.id }}</h3>
+            <h3>{{ post.title }}</h3>
+            <h5>{{ post.publishAt }}</post></h5>
+        </div>
+    </template>
+
+    <script>
+        //Aqui inicia o componente
+        Vue.component('blog-post', {
+            props : [ 'post' ],
+            template : '#blog'
+        })
+        //aqui terminou o componente
+
+        //instancia do Vue
+        var app = new Vue({
+            el : "#app",
+            data: {
+                posts: [
+                    { id: 1, title: 'Minha jornada com Vue', publishAt : "01/01/2020" },
+                    { id: 2, title: 'Postagens com Vue', publishAt : "01/01/2020" },
+                    { id: 3, title: 'Porque Vue é tão divertido', publishAt : "01/01/2020" }
+                ]
+            }
+        })
+    </script>
+</body>
+
+</html>

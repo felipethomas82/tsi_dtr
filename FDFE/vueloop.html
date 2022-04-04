@@ -25,7 +25,7 @@
 
         #app {
             margin: 0 auto;
-            width: 200px;
+            width: 300px;
             background-color: rgba(255,255,255, 0.8);
             padding : 20px;
             border-radius: 20px 20px 20px 20px;
@@ -35,6 +35,44 @@
             margin-left: 20px;
             padding: 0;
         }
+
+        /* input lupa */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+            
+        .btn-text-top {
+            background-color: #f5f6fa;
+            border: 1px solid rgba(200, 200, 200, 1);
+            padding: 0px 50px 0px 30px;
+            border-radius: 20px;
+            width: 100%!important;
+            height: 42px;
+            font-weight: 300;
+            color: #8795a2;
+        }
+        
+        .btn-lista {
+            width: 20px!important;
+            height: 22px;
+            cursor: pointer!important;
+            border: none;
+            transform: translateY(-50%);
+            padding: 0;
+            position: relative;
+            top: -25px;
+            left: 120px;
+        }
+
+        .btn-buscar-top {
+            background: url(http://www.devmedia.com.br/imagens/2013/buscar_grey.png) no-repeat;
+        }
+
+        .comprado {
+            text-decoration: line-through
+        }
     </style>
 
     <title>Aula Loops - Eventos - Two-way binding</title>
@@ -42,13 +80,23 @@
 <body>
     <div id="app">
         <h2>Lista de compras</h2>
+        <div class="add">
+            <div class="container">
+                <input type="text" v-model="novoItem" class="btn-text-top" placeholder="Adicionar item">
+                <button @click="adicionar" class="btn-add btn-lista">+</button>
+            </div>
+        </div>
+        <div class="container">
+            <input class="btn-text-top" type="text" placeholder="Buscar" v-model="filtro">
+            <div><button class="btn-buscar-top btn-lista"></button></div>
+        </div>
         <ol>
-            <li v-for="compra in lista">
-                {{ compra.item }}
+            <li v-for="(compra, index) in itensFiltrados" :class="{ comprado : compra.comprado }">
+                {{ compra.item }} 
+                <button @click="remover(index)">Remover</button>
+                <button @click="comprado(index)">Comprado</button>
             </li>
         </ol>
-        <input type="text" v-model="novoItem">
-        <button @click="adicionar">Adicionar item</button>
     </div>
 
     <script>
@@ -56,13 +104,14 @@
             el : "#app",
             data : {
                 lista : [
-                    { item : "Pão" },
-                    { item : "Leite" },
-                    { item : "Arroz" },
-                    { item : "Feijão" },
-                    { item : "Carne" }
+                    { item : "Pão", comprado : false },
+                    { item : "Leite", comprado : false },
+                    { item : "Arroz", comprado : false },
+                    { item : "Feijão", comprado : false },
+                    { item : "Carne", comprado : false }
                 ],
-                novoItem : ""
+                novoItem : "",
+                filtro : ""
             },
             methods : {
                 adicionar : function() {
@@ -70,6 +119,19 @@
                         this.lista.push({ item : this.novoItem });
                         this.novoItem = "";
                     } 
+                },
+                remover : function(index) {
+                    this.lista.splice(index,1);
+                },
+                comprado : function(index) {
+                    this.lista[index].comprado = true;
+                }
+            },
+            computed : {
+                itensFiltrados : function() {
+                    return this.lista.filter( (value) => {
+                        return value.item.toLowerCase().indexOf( this.filtro.toLowerCase() ) >= 0;
+                    });
                 }
             }
         })
